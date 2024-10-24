@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+    }
+    .head{
+      text-align:center;
+      margin : 20px;
+      font-size: 3rem;
+      font-weight: bolder;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    .choices{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .choice{
+      margin : 15px;
+      margin-bottom: none;
+      height : 100px;
+      border-radius: 50%;
+    }
+    .show{
+      display: flex;
+     justify-content: center;
+     position: relative;
+     top : 200px;
+     font-size: 2.3rem;
+     font-weight: bolder;
+     font-family: Arial, Helvetica, sans-serif;
+    }
+    #msg{
+      display: flex;
+     justify-content: center;
+     position: relative;
+     top : 230px;
+     font-size: 2.3rem;
+     font-weight: bolder;
+     font-family: Arial, Helvetica, sans-serif;
+    }
+    .show div{
+      margin-left : 50px;
+    }
+    .newgame{
+     background-color: red;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+    }
+    #newgame{
+     position: relative;
+     left : 710px;
+     top : 300px;
+     height : 50px;
+     width : 140px;
+     font-size: 1rem;
+     font-weight: bolder;
+     border-radius: 10px;
+     background : linear-gradient(red,blue,black);
+     color : white;
+     box-shadow: 5px 2px 2px black;
+     transition: 3s ease-in-out 0s;
+    }
+    #newgame:hover{
+      animation: one 5s ease-in 1s infinite normal;
+    }
+    @keyframes one{
+      from{
+        transform: rotate(10deg);
+      }
+      to{
+        transform: rotate(720deg);
+      }
+    }
+   .hide{
+    transition: 3s ease-in-out 0s;
+    font-size: 2.5rem;
+   }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="head">STONE , PAPER , SCISSOR</div>
+    <div class="choices">
+    <div class="choice" id="stone">
+      <img src="images/rock.png" height = 200px width = 200px>
+    </div>
+    <div class="choice" id="paper">
+      <img src="images/paper.png"  height = 200px width = 200px>
+    </div>
+    <div class="choice" id="scissor">
+      <img src="images/scissors.png"  height = 200px width = 200px>
+    </div>
+  </div>
+  <div class="show">
+    <div class="user">
+    <span id="user">User Score : </span>
+    <span class="userNum hide" > 0 </span>
+  </div>
+     <div class="comp">
+    <span id="comp">Computer Score : </span>
+    <span class="compNum hide" > 0 </span>
+  </div>
+  </div>
+  <span id="msg"></span>
+  <button id="newgame">NEW GAME</button>
+  </div>
+  
+</body>
+<script>
+  let photos = document.querySelectorAll('.choice')
+  let userNum = document.querySelector('.userNum')
+  let compNum = document.querySelector('.compNum')
+  let msg = document.querySelector('#msg')
+  let btn = document.querySelector('#newgame')
+  let number = document.querySelector('.number')
+  let userNumber = 1;
+  let compNumber = 1;
+  userNum.classList.remove('hide')
+  compNum.classList.remove('hide')
+  let winner = 0;
+   function  checkWinner(id,comp){
+        if(id == comp){
+          winner = msg.innerText = "MatchDraw"
+        }
+        else if(id == "stone"){
+        winner = comp == "paper" ? msg.innerText = "comp Winner" : msg.innerText = "User winner"
+        }
+      else if(id == "paper"){
+        winner = comp == "scissor" ? msg.innerText = "comp Winner" : msg.innerText = "User winner"
+      }
+      else if(id == "scissor"){
+        winner = comp == "stone" ? msg.innerText = "comp Winner" : msg.innerText = "User winner"
+      }
+      showWinner(winner)
+      console.log(` log = ${winner}`);
+      
+   }
+   function showWinner(winner){
+   if(winner == "User winner"){
+    num = userNumber++;
+    userNum.innerText = num;
+    msg.style.backgroundColor = "green";
+    userNum.classList.add('hide')
+    console.log(`user count = ${num}`);
+    
+   }
+   else if(winner == "comp Winner"){
+    Com = compNumber++;
+     compNum.innerText = Com;
+     msg.style.backgroundColor = "red";
+     console.log(`comp count = ${Com}`);
+     compNum.classList.add('hide')
+   }
+   else{
+    msg.style.backgroundColor = "blue";
+   }
+  }
+  
+  function compChoice(id){
+    let arr = ["stone" , "paper" , "scissor"]
+       let idx = Math.floor(Math.random()*3)
+       comp = arr[idx];
+       console.log(`comp choice : ${comp}`);
+       checkWinner(id,comp)
+  }
+  
+   function playGame(id){
+    console.log(`user choice : ${id}`);
+       compChoice(id)
+       
+   }
+
+  photos.forEach((photo) => {
+     photo.addEventListener('click' , () => {
+      const id = photo.getAttribute("id");
+      playGame(id)
+     })
+  })
+ 
+btn.addEventListener('click' , () => {
+  userNum.innerText = "0"
+  compNum.innerText = "0"
+  msg.style.backgroundColor = "white" 
+  msg.innerText = ""
+  userNumber = 1;
+  compNumber = 1;
+})
+
+
+</script>
+</html>
